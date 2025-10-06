@@ -18,6 +18,11 @@ jobs:
         with:
           terraform_version: 1.7.0
 
+      - name: Configure AWS Credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.TERRAFORM_SECRETS }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.TERRAFORM_SECRETS_SECRETKEY }}" >> $GITHUB_ENV
+
       - name: Terraform Init
         run: terraform init
 
@@ -32,6 +37,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_SECRETS }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_SECRETS_SECRETKEY }}
